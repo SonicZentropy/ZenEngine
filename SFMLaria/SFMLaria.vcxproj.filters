@@ -22,6 +22,12 @@
     <ClCompile Include="Source\Base\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\common\logging\ZLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\assets\manager\AssetLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -29,5 +35,10 @@
     <ClInclude Include="Source\Core\Render\shader\ShaderManager.h" />
     <ClInclude Include="Source\Base\Game.h" />
     <ClInclude Include="Source\Core\common\logging\ZLog.h" />
+    <ClInclude Include="Source\Core\assets\manager\AssetLoader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Core\Render\shader\HoloFragmentShader.frag" />
+    <None Include="Source\Core\Render\shader\HoloVertexShader.vert" />
   </ItemGroup>
 </Project>

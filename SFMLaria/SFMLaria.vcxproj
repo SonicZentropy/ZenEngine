@@ -105,12 +105,16 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Dev\sdks\spdlog;D:\Dev\sdks\boost;D:\Workspace\Cpp\SFML\include;D:\Dev\sdks\glew-2.0.0\include;D:\Dev\sdks\glm-0.9.8.4;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>D:\Workspace\Cpp\SFML\lib;D:\Dev\sdks\glew-2.0.0\lib\Release\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.15063.0\um\x64;</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;OpenGL32.Lib;GlU32.Lib;opengl32.lib;sfml-system-d.lib;sfml-main-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-audio-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /i /e /s /y /f "$(ProjectDir)Assets\*" "$(TargetDir)Assets\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -136,6 +140,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Dev\sdks\spdlog;D:\Dev\sdks\boost;D:\Workspace\Cpp\SFML\include;D:\Dev\sdks\glew-2.0.0\include;D:\Dev\sdks\glm-0.9.8.4;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,9 +149,14 @@
       <AdditionalLibraryDirectories>D:\Workspace\Cpp\SFML\lib;D:\Dev\sdks\glew-2.0.0\lib\Release\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.15063.0\um\x64;</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;OpenGL32.Lib;GlU32.Lib;opengl32.lib;sfml-system-d.lib;sfml-main-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-audio-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /i /e /s /y /f "$(ProjectDir)Assets\*" "$(TargetDir)Assets\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\assets\manager\AssetLoader.cpp" />
     <ClCompile Include="Source\Base\Game.cpp" />
+    <ClCompile Include="Source\Core\common\logging\ZLog.cpp" />
     <ClCompile Include="Source\Core\Render\Renderer.cpp" />
     <ClCompile Include="Source\Base\SFMLariaBootstrap.cpp" />
     <ClCompile Include="Source\Core\Render\shader\ShaderManager.cpp" />
@@ -156,11 +166,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\assets\manager\AssetLoader.h" />
     <ClInclude Include="Source\Base\Game.h" />
     <ClInclude Include="Source\Core\common\logging\ZLog.h" />
     <ClInclude Include="Source\Core\Render\Renderer.h" />
     <ClInclude Include="Source\Core\Render\shader\ShaderManager.h" />
     <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Core\Render\shader\HoloFragmentShader.frag" />
+    <None Include="Source\Core\Render\shader\HoloVertexShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

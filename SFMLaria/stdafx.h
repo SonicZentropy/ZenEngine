@@ -12,6 +12,8 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
+#include <spdlog/spdlog.h>
+
 
 using std::string;
 using std::shared_ptr;
@@ -31,3 +33,5 @@ using glm::radians;
 using glm::vec2;
 using glm::vec3;
 using glm::vec4;
+
+#include "Source/Core/common/logging/ZLog.h"

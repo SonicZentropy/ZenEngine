@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include <SFML/System/Clock.hpp>
 #include "Source/Core/Render/shader/ShaderManager.h"
+#include "Source/Core/assets/manager/AssetLoader.h"
 
 namespace Zen
 {
@@ -90,23 +91,64 @@ namespace Zen
 		0.982f,  0.099f,  0.879f
 	};
 
-	Renderer::Renderer()
-		: vertexbuffer()
-	{
-		
-	}
+	static const GLfloat g_uv_buffer_data[] = {
+		0.000059f, 1.0f - 0.000004f,
+		0.000103f, 1.0f - 0.336048f,
+		0.335973f, 1.0f - 0.335903f,
+		1.000023f, 1.0f - 0.000013f,
+		0.667979f, 1.0f - 0.335851f,
+		0.999958f, 1.0f - 0.336064f,
+		0.667979f, 1.0f - 0.335851f,
+		0.336024f, 1.0f - 0.671877f,
+		0.667969f, 1.0f - 0.671889f,
+		1.000023f, 1.0f - 0.000013f,
+		0.668104f, 1.0f - 0.000013f,
+		0.667979f, 1.0f - 0.335851f,
+		0.000059f, 1.0f - 0.000004f,
+		0.335973f, 1.0f - 0.335903f,
+		0.336098f, 1.0f - 0.000071f,
+		0.667979f, 1.0f - 0.335851f,
+		0.335973f, 1.0f - 0.335903f,
+		0.336024f, 1.0f - 0.671877f,
+		1.000004f, 1.0f - 0.671847f,
+		0.999958f, 1.0f - 0.336064f,
+		0.667979f, 1.0f - 0.335851f,
+		0.668104f, 1.0f - 0.000013f,
+		0.335973f, 1.0f - 0.335903f,
+		0.667979f, 1.0f - 0.335851f,
+		0.335973f, 1.0f - 0.335903f,
+		0.668104f, 1.0f - 0.000013f,
+		0.336098f, 1.0f - 0.000071f,
+		0.000103f, 1.0f - 0.336048f,
+		0.000004f, 1.0f - 0.671870f,
+		0.336024f, 1.0f - 0.671877f,
+		0.000103f, 1.0f - 0.336048f,
+		0.336024f, 1.0f - 0.671877f,
+		0.335973f, 1.0f - 0.335903f,
+		0.667969f, 1.0f - 0.671889f,
+		1.000004f, 1.0f - 0.671847f,
+		0.667979f, 1.0f - 0.335851f
+	};
 
+	Renderer::Renderer()
+		: vertexbuffer(), colorbuffer{0}, uvBuffer{0}, programID{0}, matrixID{0}, VertexArrayID{0}, texture{0}, textureID{0} { }
 
 	Renderer::~Renderer()
 	{
+		glDeleteBuffers(1, &vertexbuffer);
+		glDeleteBuffers(1, &colorbuffer);
+		glDeleteProgram(programID);
+		glDeleteVertexArrays(1, &VertexArrayID);
+
 	}
 
 
 	void Renderer::Init() {
-		LoadShaders();
+		//LoadShaders();
 		OpenGLInit();
 		CreateCubeBuffer();
 		CreateColorBuffer();
+		CreateTextureUV();
 		SetProgramID(programID);
 	}
 
@@ -115,23 +157,26 @@ namespace Zen
 	void Renderer::LoadShaders()
 	{
 		programID = ShaderManager::LoadShaders(
-			"D:/Workspace/Cpp/SFMLaria/SFMLaria/Source/Core/Render/shader/HoloVertexShader.vertexshader",
-			"D:/Workspace/Cpp/SFMLaria/SFMLaria/Source/Core/Render/shader/HoloFragmentShader.fragmentshader");
+			"D:/Workspace/Cpp/SFMLaria/SFMLaria/Source/Core/Render/shader/HoloVertexShader.vert",
+			"D:/Workspace/Cpp/SFMLaria/SFMLaria/Source/Core/Render/shader/HoloFragmentShader.frag");
 	}
 
 	void Renderer::OpenGLInit()
 	{
-		GLuint VertexArrayID;
-		glGenVertexArrays(1, &VertexArrayID);
-		glBindVertexArray(VertexArrayID);
 
-		glClearDepth(1.f);
+		//glClearDepth(1.f);
 		glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 		// Enable Z-buffer read and write
 		glEnable(GL_DEPTH_TEST);
 		//glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS); //accept frag if closer to camera than former
+
+		
+		glGenVertexArrays(1, &VertexArrayID);
+		glBindVertexArray(VertexArrayID);
+
+		LoadShaders();
 
 		matrixID = glGetUniformLocation(programID, "MVP"); //get handle for MVP uniform
 
@@ -144,12 +189,21 @@ namespace Zen
 		);
 		mat4 model = mat4(1.0f);
 		MVP = projection * view * model;
-
+		LOG_DEBUG("Made MVP");
 		// Setup a perspective projection
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		gluPerspective(90.f, 1.f, 1.f, 500.f);
+		//glMatrixMode(GL_PROJECTION);
+		//glLoadIdentity();
+		//gluPerspective(90.f, 1.f, 1.f, 500.f);
 	}
+
+	void Renderer::CreateTextureUV() {
+		texture = Assets::AssetLoader::LoadBMP_Custom("Assets/Textures/uvtemplate.bmp");
+		textureID = glGetUniformLocation(programID, "myTextureSampler");
+		glGenBuffers(1, &uvBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(g_uv_buffer_data), g_uv_buffer_data, GL_STATIC_DRAW);
+	}
+
 
 
 
@@ -265,6 +319,15 @@ namespace Zen
 	}
 
 	void Renderer::DrawCube() {
+		static float clockTime = 0.1f;
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(0.f, 0.f, -200.f);
+		glRotatef(clockTime * 50, 1.f, 0.f, 0.f);
+		glRotatef(clockTime * 30, 0.f, 1.f, 0.f);
+		glRotatef(clockTime * 90, 0.f, 0.f, 1.f);
+		clockTime += 0.1f;
+
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 		glVertexAttribPointer(
@@ -296,13 +359,61 @@ namespace Zen
 		glDisableVertexAttribArray(1);
 	}
 
+	void Renderer::DrawUVCube() {
+		// Clear the screen
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// Use our shader
+		glUseProgram(programID);
+
+		// Send our transformation to the currently bound shader, 
+		// in the "MVP" uniform
+		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &MVP[0][0]);
+
+		// Bind our texture in Texture Unit 0
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		// Set our "myTextureSampler" sampler to user Texture Unit 0
+		glUniform1i(textureID, 0);
+
+		// 1rst attribute buffer : vertices
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+		glVertexAttribPointer(
+			0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
+			3,                  // size
+			GL_FLOAT,           // type
+			GL_FALSE,           // normalized?
+			0,                  // stride
+			(void*)0            // array buffer offset
+		);
+
+		// 2nd attribute buffer : UVs
+		glEnableVertexAttribArray(1);
+		glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
+		glVertexAttribPointer(
+			1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
+			2,                                // size : U+V => 2
+			GL_FLOAT,                         // type
+			GL_FALSE,                         // normalized?
+			0,                                // stride
+			(void*)0                          // array buffer offset
+		);
+
+		// Draw the triangle !
+		glDrawArrays(GL_TRIANGLES, 0, 12 * 3); // 12*3 indices starting at 0 -> 12 triangles
+
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+	}
+
 	void Renderer::Render() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(programID);
 
 		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &MVP[0][0]);
 
-		DrawCube();
+		DrawUVCube();
 	}
 
 	void Renderer::SetProgramID(GLuint id) {

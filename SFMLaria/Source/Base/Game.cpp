@@ -2,8 +2,8 @@
 #include "Game.h"
 #include "Source/Core/Render/Renderer.h"
 #include "Source/Core/Render/shader/ShaderManager.h"
-#include <spdlog/spdlog.h>
-#include "Source/Core/common/logging/ZLog.h"
+#include <boost/foreach.hpp>
+#include <iostream>
 
 namespace Zen
 {
@@ -34,8 +34,14 @@ namespace Zen
 		//ZLog::Logger->info("In log", 1, 1.23f);
 
 		//SPDLOG_TRACE(ZLog::Logger, "In {} {}", "Game", "Run");
-		LOG_TRACE("Trace In {} {}", "Game", "Run");
+		//LOG_TRACE("Trace In {} {}", "Game", "Run");
 		LOG_DEBUG("Debug in {}", "Game Run");
+		//std::string hello("Hello, world!");
+
+		//BOOST_FOREACH(char ch, hello)
+		//{
+		//	LOG_DEBUG(ch);
+		//}
 		return true;
 	}
 
@@ -43,12 +49,14 @@ namespace Zen
 		//auto console = spdlog::stdout_color_mt("console");
 		//console->info("In game run");
 
+		
+
 		InitLogger();
 		if (!InitGlew())
 			return;
 
 		pRenderer->Init();
-
+		
 		while (window.isOpen()) {
 			sf::Event event;
 			while (window.pollEvent(event)) {
@@ -64,6 +72,8 @@ namespace Zen
 			Update();
 			Render();
 
+			
+
 			window.display();
 		}
 
@@ -77,5 +87,6 @@ namespace Zen
 	void Game::Render() {
 		//pRenderer->DrawTriangle();
 		pRenderer->Render();
+		
 	}
 }

@@ -14,9 +14,10 @@ namespace Zen
 		Renderer();
 		~Renderer();
 
-		GLuint vertexbuffer, colorbuffer;
+		GLuint vertexbuffer, colorbuffer, uvBuffer;
 		void LoadShaders();
 		void OpenGLInit();
+		void CreateTextureUV();
 		void Init();
 		void CreateColorBuffer();
 		void CreateTriangleBuffer();
@@ -25,9 +26,12 @@ namespace Zen
 		void DrawRotatingCube(sf::Clock &clock);
 		void DrawTriangle();
 		void DrawCube();
+		void DrawUVCube();
 		void Render();
 
 		GLuint programID, matrixID;
+		GLuint VertexArrayID;
+		GLuint texture, textureID;
 		mat4 MVP;
 		void SetProgramID(GLuint id);
 
