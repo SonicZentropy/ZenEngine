@@ -34,7 +34,7 @@
     <ClCompile Include="Source\Core\assets\models\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\common\ZenMath.cpp">
+    <ClCompile Include="Source\Core\common\math\ZenMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -49,7 +49,10 @@
     <ClInclude Include="Source\Core\assets\models\Mesh.h" />
     <ClInclude Include="Source\Core\assets\models\IRenderable.h" />
     <ClInclude Include="Source\Core\util\Vertex.h" />
-    <ClInclude Include="Source\Core\common\ZenMath.h" />
+    <ClInclude Include="Source\Core\common\math\ZenMath.h" />
+    <ClInclude Include="Source\Core\common\math\Vector3.h" />
+    <ClInclude Include="Source\Core\common\math\Vector2.h" />
+    <ClInclude Include="Source\Core\common\math\Quaternion.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Core\Render\shader\HoloFragmentShader.frag" />

@@ -161,7 +161,7 @@
     <ClCompile Include="Source\Core\assets\models\Mesh.cpp" />
     <ClCompile Include="Source\Core\assets\models\ObjModel.cpp" />
     <ClCompile Include="Source\Core\common\logging\ZLog.cpp" />
-    <ClCompile Include="Source\Core\common\ZenMath.cpp" />
+    <ClCompile Include="Source\Core\common\math\ZenMath.cpp" />
     <ClCompile Include="Source\Core\Render\Renderer.cpp" />
     <ClCompile Include="Source\Base\ZenEngineBootstrap.cpp" />
     <ClCompile Include="Source\Core\Render\shader\ShaderManager.cpp" />
@@ -177,7 +177,10 @@
     <ClInclude Include="Source\Core\assets\models\Mesh.h" />
     <ClInclude Include="Source\Core\assets\models\ObjModel.h" />
     <ClInclude Include="Source\Core\common\logging\ZLog.h" />
-    <ClInclude Include="Source\Core\common\ZenMath.h" />
+    <ClInclude Include="Source\Core\common\math\Quaternion.hpp" />
+    <ClInclude Include="Source\Core\common\math\Vector2.h" />
+    <ClInclude Include="Source\Core\common\math\Vector3.h" />
+    <ClInclude Include="Source\Core\common\math\ZenMath.h" />
     <ClInclude Include="Source\Core\Render\Renderer.h" />
     <ClInclude Include="Source\Core\Render\shader\ShaderManager.h" />
     <ClInclude Include="Source\Core\util\Vertex.h" />

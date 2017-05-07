@@ -11,6 +11,6 @@ namespace Zen
 	class ZenMath
 	{
 	public:
-		
+		//static Vector3 Cross()
 	};
 }
