@@ -14,6 +14,8 @@ namespace Zen
 		CQuaternion(T inX, T inY, T inZ, T inW)
 			: x(inX), y(inY), z(inZ), w(inW)
 		{};
+				
+		const static CQuaternion<T> Identity;
 
 		CQuaternion<T> Normalize() {
 			T Length = sqrt(x * x + y * y + z * z + w * w);
@@ -69,4 +71,7 @@ namespace Zen
 			return Vector3(f[0], f[1], f[2]);
 		}
 	};
+
+	using Quaternion = CQuaternion<PrecisionType>;
+	const CQuaternion<PrecisionType> CQuaternion<PrecisionType>::Identity = Quaternion(0, 0, 0, 1);
 }

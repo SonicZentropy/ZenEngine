@@ -205,5 +205,5 @@ namespace Zen
 		return (left.x != right.x) || (left.y != right.y);
 	}
 
-	using Vector2 = CVector2<float>;
+	using Vector2 = CVector2<PrecisionType>;
 }

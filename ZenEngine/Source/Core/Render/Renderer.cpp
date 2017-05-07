@@ -177,6 +177,9 @@ namespace Zen
 		// Enable Z-buffer read and write
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_TEXTURE_2D);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
 		//glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS); //accept frag if closer to camera than former
 

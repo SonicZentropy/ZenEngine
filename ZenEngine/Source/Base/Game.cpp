@@ -49,9 +49,7 @@ namespace Zen
 	void Game::Run() {
 		//auto console = spdlog::stdout_color_mt("console");
 		//console->info("In game run");
-
 		
-
 		InitLogger();
 		if (!InitGlew())
 			return;

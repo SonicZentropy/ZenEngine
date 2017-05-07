@@ -37,6 +37,9 @@
     <ClCompile Include="Source\Core\common\math\ZenMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\camera\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -53,6 +56,7 @@
     <ClInclude Include="Source\Core\common\math\Vector3.h" />
     <ClInclude Include="Source\Core\common\math\Vector2.h" />
     <ClInclude Include="Source\Core\common\math\Quaternion.hpp" />
+    <ClInclude Include="Source\Core\camera\Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Core\Render\shader\HoloFragmentShader.frag" />

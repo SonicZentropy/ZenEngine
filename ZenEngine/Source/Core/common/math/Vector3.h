@@ -17,6 +17,9 @@ namespace Zen
 		template <typename U>
 		explicit CVector3(const CVector3<U>& vector);
 
+		const static CVector3<T> Zero;
+		const static CVector3<T> One;
+
 		CVector3<T> Cross(const CVector3<T>& other) const {
 			const T _x = y * other.z - z * other.y;
 			const T _y = z * other.x - x * other.z;
@@ -236,5 +239,9 @@ namespace Zen
 		return (left.x != right.x) || (left.y != right.y) || (left.z != right.z);
 	}
 
-	using Vector3 = CVector3<float>;
+	using Vector3 = CVector3<PrecisionType>;
+
+	//const static Vector3 Zero = Vector3(0,0, 0);
+	const CVector3<PrecisionType> CVector3<PrecisionType>::Zero = Vector3(0, 0, 0);
+	const CVector3<PrecisionType> CVector3<PrecisionType>::One = Vector3(1, 1, 1);
 }

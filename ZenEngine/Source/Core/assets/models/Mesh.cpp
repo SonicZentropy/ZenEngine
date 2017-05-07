@@ -93,6 +93,8 @@ namespace Zen
 		else {
 			Dir = filename.substr(0, SlashIndex);
 		}
+
+		Vector3 test = Vector3::Zero;
 		
 		bool ret = true;
 		for (unsigned int i = 0; i < pScene->mNumMaterials; ++i) {

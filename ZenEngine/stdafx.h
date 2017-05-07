@@ -1,5 +1,7 @@
 #pragma once
 
+using PrecisionType = float;
+
 // Including SDKDDKVer.h defines the highest available Windows platform.
 #include <SDKDDKVer.h>
 #define _USE_MATH_DEFINES
