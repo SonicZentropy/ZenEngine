@@ -3,6 +3,7 @@
 #include <SFML/System/Clock.hpp>
 #include "Source/Core/Render/shader/ShaderManager.h"
 #include "Source/Core/assets/manager/AssetLoader.h"
+#include <SFML/Graphics/Texture.hpp>
 
 namespace Zen
 {
@@ -131,7 +132,7 @@ namespace Zen
 	};
 
 	Renderer::Renderer()
-		: vertexbuffer(), colorbuffer{0}, uvBuffer{0}, programID{0}, matrixID{0}, VertexArrayID{0}, texture{0}, textureID{0} { }
+		: vertexbuffer(), colorbuffer{0}, uvBuffer{0}, programID{0}, matrixID{0}, VertexArrayID{0}, texture{0}, textureID{0}, spider{ AssetLoader::LoadOBJ("Assets/spider.obj") } { }
 
 	Renderer::~Renderer()
 	{
@@ -146,9 +147,15 @@ namespace Zen
 	void Renderer::Init() {
 		//LoadShaders();
 		OpenGLInit();
-		CreateCubeBuffer();
-		CreateColorBuffer();
-		CreateTextureUV();
+		//spider = AssetLoader::LoadOBJ("Assets/spider.obj");
+		//CreateSpiderBuffer();
+		//CreateSpiderUV();
+		//CreateSpiderTexture();
+		//CreateCubeBuffer();
+		//CreateColorBuffer();
+		//CreateTextureUV();
+		pMesh = new Mesh();
+		pMesh->LoadMesh("Assets/FlakTurretLP.obj");
 		SetProgramID(programID);
 	}
 
@@ -169,6 +176,7 @@ namespace Zen
 
 		// Enable Z-buffer read and write
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_TEXTURE_2D);
 		//glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS); //accept frag if closer to camera than former
 
@@ -181,9 +189,9 @@ namespace Zen
 		matrixID = glGetUniformLocation(programID, "MVP"); //get handle for MVP uniform
 
 		//proj matrix 45FoV 4:3
-		mat4 projection = perspective(radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
+		mat4 projection = perspective(radians(45.0f), 4.0f / 3.0f, 0.1f, 500.0f);
 		mat4 view = lookAt(
-			vec3(4, 3, -3),
+			vec3(4, 3, 0),
 			vec3(0, 0, 0),
 			vec3(0, 1, 0)
 		);
@@ -196,19 +204,37 @@ namespace Zen
 		//gluPerspective(90.f, 1.f, 1.f, 500.f);
 	}
 
-	void Renderer::CreateTextureUV() {
-		texture = Assets::AssetLoader::LoadBMP_Custom("Assets/Textures/uvtemplate.bmp");
-		textureID = glGetUniformLocation(programID, "myTextureSampler");
-		glGenBuffers(1, &uvBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(g_uv_buffer_data), g_uv_buffer_data, GL_STATIC_DRAW);
+
+
+	void Renderer::CreateSpiderBuffer() {
+		glGenBuffers(1, &vertexbuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+		glBufferData(GL_ARRAY_BUFFER, spider.vertices.size() * sizeof(vec3), &spider.vertices[0], GL_STATIC_DRAW);
 	}
 
+	void Renderer::CreateSpiderUV() {
+		glGenBuffers(1, &uvBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
+		glBufferData(GL_ARRAY_BUFFER, spider.UVs.size() * sizeof(vec2), &spider.UVs[0], GL_STATIC_DRAW);
+	}
 
+	void Renderer::CreateSpiderTexture() {
+		
+		if(!spiderTex.loadFromFile("Assets/SpiderTex.jpg")) {
+			LOG_TRACE("Could not load image");
+			return;
+		}
+		//sf::Texture::bind(&spiderTex);
+		glGenTextures(1, &spiderTexHandle);
+		glBindTexture(GL_TEXTURE_2D, spiderTexHandle);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+			spiderTex.getSize().x, spiderTex.getSize().y,
+			0, GL_RGBA, GL_UNSIGNED_BYTE, spiderTex.getPixelsPtr());
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
 
-
-
-	void Renderer::CreateColorBuffer() {
+	/*void Renderer::CreateColorBuffer() {
 		glGenBuffers(1, &colorbuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
@@ -234,7 +260,7 @@ namespace Zen
 		//give vertices into the buffer
 		//glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_dataTriangle), g_vertex_buffer_dataTriangle, GL_STATIC_DRAW);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	}
+	}*/
 
 	void Renderer::CreateTransform() {
 		// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
@@ -301,7 +327,7 @@ namespace Zen
 		glEnd();
 	}
 	
-	void Renderer::DrawTriangle()
+/*	void Renderer::DrawTriangle()
 	{
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -357,9 +383,9 @@ namespace Zen
 		glDrawArrays(GL_TRIANGLES, 0, 12*3);
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
-	}
+	}*/
 
-	void Renderer::DrawUVCube() {
+/*	void Renderer::DrawUVCube() {
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -405,6 +431,55 @@ namespace Zen
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
+	}*/
+
+	void Renderer::DrawSpider() {
+		// Clear the screen
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// Use our shader
+		glUseProgram(programID);
+
+		// Send our transformation to the currently bound shader, 
+		// in the "MVP" uniform
+		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &MVP[0][0]);
+
+		// Bind our texture in Texture Unit 0
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D, texture);
+		glBindTexture(GL_TEXTURE_2D, spiderTexHandle);
+		//// Set our "myTextureSampler" sampler to user Texture Unit 0
+		//glUniform1i(textureID, 0);
+
+		// 1rst attribute buffer : vertices
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+		glVertexAttribPointer(
+			0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
+			3,                  // size
+			GL_FLOAT,           // type
+			GL_FALSE,           // normalized?
+			0,                  // stride
+			(void*)0            // array buffer offset
+		);
+
+		// 2nd attribute buffer : UVs
+		glEnableVertexAttribArray(1);
+		glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
+		glVertexAttribPointer(
+			1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
+			2,                                // size : U+V => 2
+			GL_FLOAT,                         // type
+			GL_FALSE,                         // normalized?
+			0,                                // stride
+			(void*)0                          // array buffer offset
+		);
+
+		// Draw the triangle !
+		glDrawArrays(GL_TRIANGLES, 0, spider.vertices.size()); // 12*3 indices starting at 0 -> 12 triangles
+
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
 	}
 
 	void Renderer::Render() {
@@ -413,7 +488,10 @@ namespace Zen
 
 		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &MVP[0][0]);
 
-		DrawUVCube();
+
+
+		//DrawSpider();
+		pMesh->Render();
 	}
 
 	void Renderer::SetProgramID(GLuint id) {

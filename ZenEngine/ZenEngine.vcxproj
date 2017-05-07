@@ -27,7 +27,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F8DA845B-EC30-48AB-A8B1-A0B355D2B2EF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>SFMLaria</RootNamespace>
+    <RootNamespace>ZenEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -104,13 +104,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Dev\sdks\spdlog;D:\Dev\sdks\boost;D:\Workspace\Cpp\SFML\include;D:\Dev\sdks\glew-2.0.0\include;D:\Dev\sdks\glm-0.9.8.4;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\sdks\assimp\include;D:\Dev\sdks\assimp\include;D:\Dev\sdks\spdlog;D:\Dev\sdks\boost;D:\Workspace\Cpp\SFML\include;D:\Dev\sdks\glew-2.0.0\include;D:\Dev\sdks\glm-0.9.8.4;$(ProjectDir)</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4996;4267</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>D:\Workspace\Cpp\SFML\lib;D:\Dev\sdks\glew-2.0.0\lib\Release\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.15063.0\um\x64;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;OpenGL32.Lib;GlU32.Lib;opengl32.lib;sfml-system-d.lib;sfml-main-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-audio-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Dev\sdks\assimp\lib;D:\Workspace\Cpp\SFML\lib;D:\Dev\sdks\glew-2.0.0\lib\Release\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.15063.0\um\x64;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp.lib;glew32.lib;OpenGL32.Lib;GlU32.Lib;opengl32.lib;sfml-system-d.lib;sfml-main-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-audio-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /i /e /s /y /f "$(ProjectDir)Assets\*" "$(TargetDir)Assets\"</Command>
@@ -139,15 +140,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Dev\sdks\spdlog;D:\Dev\sdks\boost;D:\Workspace\Cpp\SFML\include;D:\Dev\sdks\glew-2.0.0\include;D:\Dev\sdks\glm-0.9.8.4;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\sdks\assimp\include;D:\Dev\sdks\assimp\include;D:\Dev\sdks\spdlog;D:\Dev\sdks\boost;D:\Workspace\Cpp\SFML\include;D:\Dev\sdks\glew-2.0.0\include;D:\Dev\sdks\glm-0.9.8.4;$(ProjectDir)</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4996;4267</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>D:\Workspace\Cpp\SFML\lib;D:\Dev\sdks\glew-2.0.0\lib\Release\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.15063.0\um\x64;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;OpenGL32.Lib;GlU32.Lib;opengl32.lib;sfml-system-d.lib;sfml-main-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-audio-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Dev\sdks\assimp\lib;D:\Workspace\Cpp\SFML\lib;D:\Dev\sdks\glew-2.0.0\lib\Release\x64;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.15063.0\um\x64;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp.lib;glew32.lib;OpenGL32.Lib;GlU32.Lib;opengl32.lib;sfml-system-d.lib;sfml-main-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-audio-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /i /e /s /y /f "$(ProjectDir)Assets\*" "$(TargetDir)Assets\"</Command>
@@ -156,9 +158,12 @@
   <ItemGroup>
     <ClCompile Include="Source\Core\assets\manager\AssetLoader.cpp" />
     <ClCompile Include="Source\Base\Game.cpp" />
+    <ClCompile Include="Source\Core\assets\models\Mesh.cpp" />
+    <ClCompile Include="Source\Core\assets\models\ObjModel.cpp" />
     <ClCompile Include="Source\Core\common\logging\ZLog.cpp" />
+    <ClCompile Include="Source\Core\common\ZenMath.cpp" />
     <ClCompile Include="Source\Core\Render\Renderer.cpp" />
-    <ClCompile Include="Source\Base\SFMLariaBootstrap.cpp" />
+    <ClCompile Include="Source\Base\ZenEngineBootstrap.cpp" />
     <ClCompile Include="Source\Core\Render\shader\ShaderManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -168,9 +173,14 @@
   <ItemGroup>
     <ClInclude Include="Source\Core\assets\manager\AssetLoader.h" />
     <ClInclude Include="Source\Base\Game.h" />
+    <ClInclude Include="Source\Core\assets\models\IRenderable.h" />
+    <ClInclude Include="Source\Core\assets\models\Mesh.h" />
+    <ClInclude Include="Source\Core\assets\models\ObjModel.h" />
     <ClInclude Include="Source\Core\common\logging\ZLog.h" />
+    <ClInclude Include="Source\Core\common\ZenMath.h" />
     <ClInclude Include="Source\Core\Render\Renderer.h" />
     <ClInclude Include="Source\Core\Render\shader\ShaderManager.h" />
+    <ClInclude Include="Source\Core\util\Vertex.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

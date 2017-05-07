@@ -7,7 +7,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Base\SFMLariaBootstrap.cpp">
+    <ClCompile Include="Source\Base\ZenEngineBootstrap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
@@ -28,6 +28,15 @@
     <ClCompile Include="Source\Core\assets\manager\AssetLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\assets\models\ObjModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\assets\models\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\common\ZenMath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -36,6 +45,11 @@
     <ClInclude Include="Source\Base\Game.h" />
     <ClInclude Include="Source\Core\common\logging\ZLog.h" />
     <ClInclude Include="Source\Core\assets\manager\AssetLoader.h" />
+    <ClInclude Include="Source\Core\assets\models\ObjModel.h" />
+    <ClInclude Include="Source\Core\assets\models\Mesh.h" />
+    <ClInclude Include="Source\Core\assets\models\IRenderable.h" />
+    <ClInclude Include="Source\Core\util\Vertex.h" />
+    <ClInclude Include="Source\Core\common\ZenMath.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Core\Render\shader\HoloFragmentShader.frag" />

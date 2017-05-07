@@ -4,6 +4,7 @@
 #include "Source/Core/Render/shader/ShaderManager.h"
 #include <boost/foreach.hpp>
 #include <iostream>
+#include "Source/Core/assets/manager/AssetLoader.h"
 
 namespace Zen
 {
@@ -56,6 +57,8 @@ namespace Zen
 			return;
 
 		pRenderer->Init();
+
+		
 		
 		while (window.isOpen()) {
 			sf::Event event;

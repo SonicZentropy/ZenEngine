@@ -1,28 +1,31 @@
 #include "stdafx.h"
 #include "AssetLoader.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include "Source/Core/assets/models/ObjModel.h"
 
-namespace Zen::Assets {
-	AssetLoader::AssetLoader()
-	{
-	}
+namespace Zen
+{
+	AssetLoader::AssetLoader() { }
 
-
-	AssetLoader::~AssetLoader()
-	{
-	}
+	AssetLoader::~AssetLoader() { }
 
 	GLuint AssetLoader::LoadBMP_Custom(string imagepath) {
 		// Data read from the header of the BMP file
 		unsigned char header[54]; // Each BMP file begins by a 54-bytes header
-		unsigned int dataPos;     // Position in the file where the actual data begins
+		unsigned int dataPos; // Position in the file where the actual data begins
 		unsigned int width, height;
-		unsigned int imageSize;   // = width*height*3
-								  // Actual RGB data
-		unsigned char * data;
+		unsigned int imageSize; // = width*height*3
+		// Actual RGB data
+		unsigned char* data;
 
 		// Open the file
-		FILE * file = fopen(imagepath.c_str(), "rb");
-		if (!file) { printf("Image could not be opened\n"); return 0; }
+		FILE* file = fopen(imagepath.c_str(), "rb");
+		if (!file) {
+			printf("Image could not be opened\n");
+			return 0;
+		}
 
 		if (fread(header, 1, 54, file) != 54) { // If not 54 bytes read : problem
 			printf("Not a correct BMP file\n");
@@ -41,10 +44,10 @@ namespace Zen::Assets {
 		height = *(int*)&(header[0x16]);
 
 		// Some BMP files are misformatted, guess missing information
-		if (imageSize == 0)    imageSize = width*height * 3; // 3 : one byte for each Red, Green and Blue component
-		if (dataPos == 0)      dataPos = 54; // The BMP header is done that way
+		if (imageSize == 0) imageSize = width * height * 3; // 3 : one byte for each Red, Green and Blue component
+		if (dataPos == 0) dataPos = 54; // The BMP header is done that way
 
-											 // Create a buffer
+		// Create a buffer
 		data = new unsigned char[imageSize];
 
 		// Read the actual data from the file into the buffer
@@ -65,7 +68,13 @@ namespace Zen::Assets {
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		
+
 		return textureID;
 	}
+
+	ObjModel AssetLoader::LoadOBJ(string path) {
+		return ObjModel(path);
+	}
+
+	bool AssetLoader::LoadFBX(string path) { return false; }
 }

@@ -13,14 +13,17 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <spdlog/spdlog.h>
-
+#include <SFML/System/Vector3.hpp>
+#include <SFML/System/Vector2.hpp>
 
 using std::string;
 using std::shared_ptr;
 using std::make_shared;
 using std::unique_ptr;
 using std::make_unique;
-using Vector3 = glm::vec3;
+using std::vector;
+using Vector2 = sf::Vector2<float>;
+using Vector3 = sf::Vector3<float>;
 using Vector4 = glm::vec4;
 using Matrix4 = glm::mat4;
 using glm::translate;
