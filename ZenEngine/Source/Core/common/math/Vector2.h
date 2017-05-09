@@ -206,4 +206,5 @@ namespace Zen
 	}
 
 	using Vector2 = CVector2<PrecisionType>;
+	using Vector2i = CVector2<int>;
 }

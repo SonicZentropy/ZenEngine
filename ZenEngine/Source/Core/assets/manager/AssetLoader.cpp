@@ -3,7 +3,6 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include "Source/Core/assets/models/ObjModel.h"
 
 namespace Zen
 {
@@ -71,10 +70,6 @@ namespace Zen
 
 		return textureID;
 	}
-
-	ObjModel AssetLoader::LoadOBJ(string path) {
-		return ObjModel(path);
-	}
-
+	
 	bool AssetLoader::LoadFBX(string path) { return false; }
 }

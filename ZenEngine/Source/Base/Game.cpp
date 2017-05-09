@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
-#include "Source/Core/Render/Renderer.h"
+#include "Source/Core/Render/Renderer3D.h"
 #include "Source/Core/Render/shader/ShaderManager.h"
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -8,13 +8,18 @@
 
 namespace Zen
 {
+	sf::RenderWindow* Game::currentWindow;
+
 	Game::Game() :
 		window(sf::VideoMode(640, 480), "SFML App")
-		, mPlayer() {
+		, mPlayer()
+		
+	{
 		mPlayer.setRadius(40.f);
 		mPlayer.setPosition(100.f, 100.f);
 
-		pRenderer = make_unique<Renderer>();
+		pRenderer = make_unique<Renderer3D>();
+		currentWindow = &window;
 	}
 
 	Game::~Game() {}

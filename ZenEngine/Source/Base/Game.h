@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 
 namespace Zen {
-	class Renderer;
+	class Renderer3D;
 
 	class Game
 	{
@@ -14,7 +14,7 @@ namespace Zen {
 		bool InitLogger();
 
 		void Run();
-
+		static sf::RenderWindow* currentWindow;
 	private:
 		void ProcessEvents();
 		void Update();
@@ -24,6 +24,6 @@ namespace Zen {
 		sf::CircleShape mPlayer;
 
 		
-		unique_ptr<Renderer> pRenderer;
+		unique_ptr<Renderer3D> pRenderer;
 	};
 }

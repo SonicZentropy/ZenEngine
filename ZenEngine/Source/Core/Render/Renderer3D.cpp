@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Renderer.h"
+#include "Renderer3D.h"
 #include <SFML/System/Clock.hpp>
 #include "Source/Core/Render/shader/ShaderManager.h"
 #include "Source/Core/assets/manager/AssetLoader.h"
@@ -131,10 +131,10 @@ namespace Zen
 		0.667979f, 1.0f - 0.335851f
 	};
 
-	Renderer::Renderer()
-		: vertexbuffer(), colorbuffer{0}, uvBuffer{0}, programID{0}, matrixID{0}, VertexArrayID{0}, texture{0}, textureID{0}, spider{ AssetLoader::LoadOBJ("Assets/spider.obj") } { }
+	Renderer3D::Renderer3D()
+		: vertexbuffer(), colorbuffer{0}, uvBuffer{0}, programID{0}, matrixID{0}, VertexArrayID{0}, texture{0}, textureID{0} { }
 
-	Renderer::~Renderer()
+	Renderer3D::~Renderer3D()
 	{
 		glDeleteBuffers(1, &vertexbuffer);
 		glDeleteBuffers(1, &colorbuffer);
@@ -144,7 +144,7 @@ namespace Zen
 	}
 
 
-	void Renderer::Init() {
+	void Renderer3D::Init() {
 		//LoadShaders();
 		OpenGLInit();
 		//spider = AssetLoader::LoadOBJ("Assets/spider.obj");
@@ -161,14 +161,14 @@ namespace Zen
 
 
 
-	void Renderer::LoadShaders()
+	void Renderer3D::LoadShaders()
 	{
 		programID = ShaderManager::LoadShaders(
 			"D:/Workspace/Cpp/SFMLaria/SFMLaria/Source/Core/Render/shader/HoloVertexShader.vert",
 			"D:/Workspace/Cpp/SFMLaria/SFMLaria/Source/Core/Render/shader/HoloFragmentShader.frag");
 	}
 
-	void Renderer::OpenGLInit()
+	void Renderer3D::OpenGLInit()
 	{
 
 		//glClearDepth(1.f);
@@ -178,8 +178,10 @@ namespace Zen
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
+		//for transparent rendering, put in that part of render pipeline
+		//Transparency is best implemented using blend function(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) with primitives sorted from farthest to nearest.Note that this transparency calculation does not require the presence of alpha bitplanes in the frame buffer.
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glBlendFunc(GL_ONE, GL_ZERO);
 		//glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS); //accept frag if closer to camera than former
 
@@ -194,7 +196,7 @@ namespace Zen
 		//proj matrix 45FoV 4:3
 		mat4 projection = perspective(radians(45.0f), 4.0f / 3.0f, 0.1f, 500.0f);
 		mat4 view = lookAt(
-			vec3(4, 3, 0),
+			vec3(4, 3, -5),
 			vec3(0, 0, 0),
 			vec3(0, 1, 0)
 		);
@@ -208,73 +210,18 @@ namespace Zen
 	}
 
 
+	
 
-	void Renderer::CreateSpiderBuffer() {
-		glGenBuffers(1, &vertexbuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		glBufferData(GL_ARRAY_BUFFER, spider.vertices.size() * sizeof(vec3), &spider.vertices[0], GL_STATIC_DRAW);
-	}
-
-	void Renderer::CreateSpiderUV() {
-		glGenBuffers(1, &uvBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-		glBufferData(GL_ARRAY_BUFFER, spider.UVs.size() * sizeof(vec2), &spider.UVs[0], GL_STATIC_DRAW);
-	}
-
-	void Renderer::CreateSpiderTexture() {
-		
-		if(!spiderTex.loadFromFile("Assets/SpiderTex.jpg")) {
-			LOG_TRACE("Could not load image");
-			return;
-		}
-		//sf::Texture::bind(&spiderTex);
-		glGenTextures(1, &spiderTexHandle);
-		glBindTexture(GL_TEXTURE_2D, spiderTexHandle);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-			spiderTex.getSize().x, spiderTex.getSize().y,
-			0, GL_RGBA, GL_UNSIGNED_BYTE, spiderTex.getPixelsPtr());
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	}
-
-	/*void Renderer::CreateColorBuffer() {
-		glGenBuffers(1, &colorbuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
-	}
-
-	void Renderer::CreateTriangleBuffer()
-	{
-		//generate 1 buffer and put the ref into vertexbuffer
-		glGenBuffers(1, &vertexbuffer);
-		//bind the buffer to vertexbuffer
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		//give vertices into the buffer
-		glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_dataTriangle), g_vertex_buffer_dataTriangle, GL_STATIC_DRAW);
-		
-	}
-
-	void Renderer::CreateCubeBuffer()
-	{
-		//generate 1 buffer and put the ref into vertexbuffer
-		glGenBuffers(1, &vertexbuffer);
-		//bind the buffer to vertexbuffer
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		//give vertices into the buffer
-		//glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_dataTriangle), g_vertex_buffer_dataTriangle, GL_STATIC_DRAW);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	}*/
-
-	void Renderer::CreateTransform() {
+	void Renderer3D::CreateTransform() {
 		// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
 		glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)800/600, 0.1f, 100.0f);
 
 		// Or, for an ortho camera :
 		//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
 
-		// Camera matrix
+		// Camera3D matrix
 		glm::mat4 View = lookAt(
-			glm::vec3(4, 3, 3), // Camera is at (4,3,3), in World Space
+			glm::vec3(4, 3, 3), // Camera3D is at (4,3,3), in World Space
 			glm::vec3(0, 0, 0), // and looks at the origin
 			glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 		);
@@ -286,7 +233,7 @@ namespace Zen
 		GLuint MatrixID = glGetUniformLocation(0, "MVP");
 	}
 
-	void Renderer::DrawRotatingCube(sf::Clock& clock)
+	void Renderer3D::DrawRotatingCube(sf::Clock& clock)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glMatrixMode(GL_MODELVIEW);
@@ -330,7 +277,7 @@ namespace Zen
 		glEnd();
 	}
 	
-/*	void Renderer::DrawTriangle()
+/*	void Renderer3D::DrawTriangle()
 	{
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -347,7 +294,7 @@ namespace Zen
 		glDisableVertexAttribArray(0);
 	}
 
-	void Renderer::DrawCube() {
+	void Renderer3D::DrawCube() {
 		static float clockTime = 0.1f;
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -388,7 +335,7 @@ namespace Zen
 		glDisableVertexAttribArray(1);
 	}*/
 
-/*	void Renderer::DrawUVCube() {
+/*	void Renderer3D::DrawUVCube() {
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -436,56 +383,9 @@ namespace Zen
 		glDisableVertexAttribArray(1);
 	}*/
 
-	void Renderer::DrawSpider() {
-		// Clear the screen
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
 
-		// Use our shader
-		glUseProgram(programID);
-
-		// Send our transformation to the currently bound shader, 
-		// in the "MVP" uniform
-		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &MVP[0][0]);
-
-		// Bind our texture in Texture Unit 0
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D, texture);
-		glBindTexture(GL_TEXTURE_2D, spiderTexHandle);
-		//// Set our "myTextureSampler" sampler to user Texture Unit 0
-		//glUniform1i(textureID, 0);
-
-		// 1rst attribute buffer : vertices
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		glVertexAttribPointer(
-			0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
-			3,                  // size
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*)0            // array buffer offset
-		);
-
-		// 2nd attribute buffer : UVs
-		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-		glVertexAttribPointer(
-			1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
-			2,                                // size : U+V => 2
-			GL_FLOAT,                         // type
-			GL_FALSE,                         // normalized?
-			0,                                // stride
-			(void*)0                          // array buffer offset
-		);
-
-		// Draw the triangle !
-		glDrawArrays(GL_TRIANGLES, 0, spider.vertices.size()); // 12*3 indices starting at 0 -> 12 triangles
-
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
-	}
-
-	void Renderer::Render() {
+	void Renderer3D::Render() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(programID);
 
@@ -497,7 +397,7 @@ namespace Zen
 		pMesh->Render();
 	}
 
-	void Renderer::SetProgramID(GLuint id) {
+	void Renderer3D::SetProgramID(GLuint id) {
 		glUseProgram(id);
 	}
 

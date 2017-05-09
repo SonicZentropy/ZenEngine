@@ -104,7 +104,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Dev\sdks\soil2\src;D:\Dev\sdks\assimp\include;D:\Dev\sdks\assimp\include;D:\Dev\sdks\spdlog;D:\Dev\sdks\boost;D:\Workspace\Cpp\SFML\include;D:\Dev\sdks\glew-2.0.0\include;D:\Dev\sdks\glm-0.9.8.4;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\sdks\catch\single_include;D:\Dev\sdks\soil2\src;D:\Dev\sdks\assimp\include;D:\Dev\sdks\assimp\include;D:\Dev\sdks\spdlog;D:\Dev\sdks\boost;D:\Workspace\Cpp\SFML\include;D:\Dev\sdks\glew-2.0.0\include;D:\Dev\sdks\glm-0.9.8.4;$(ProjectDir)</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4996;4267</DisableSpecificWarnings>
     </ClCompile>
@@ -140,7 +140,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Dev\sdks\soil2\src;D:\Dev\sdks\assimp\include;D:\Dev\sdks\assimp\include;D:\Dev\sdks\spdlog;D:\Dev\sdks\boost;D:\Workspace\Cpp\SFML\include;D:\Dev\sdks\glew-2.0.0\include;D:\Dev\sdks\glm-0.9.8.4;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\sdks\catch\single_include;D:\Dev\sdks\soil2\src;D:\Dev\sdks\assimp\include;D:\Dev\sdks\assimp\include;D:\Dev\sdks\spdlog;D:\Dev\sdks\boost;D:\Workspace\Cpp\SFML\include;D:\Dev\sdks\glew-2.0.0\include;D:\Dev\sdks\glm-0.9.8.4;$(ProjectDir)</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4996;4267</DisableSpecificWarnings>
     </ClCompile>
@@ -159,11 +159,12 @@
     <ClCompile Include="Source\Core\assets\manager\AssetLoader.cpp" />
     <ClCompile Include="Source\Base\Game.cpp" />
     <ClCompile Include="Source\Core\assets\models\Mesh.cpp" />
-    <ClCompile Include="Source\Core\assets\models\ObjModel.cpp" />
-    <ClCompile Include="Source\Core\camera\Camera.cpp" />
+    <ClCompile Include="Source\Core\camera\Camera3D.cpp" />
     <ClCompile Include="Source\Core\common\logging\ZLog.cpp" />
+    <ClCompile Include="Source\Core\common\math\Matrix4.cpp" />
     <ClCompile Include="Source\Core\common\math\ZenMath.cpp" />
-    <ClCompile Include="Source\Core\Render\Renderer.cpp" />
+    <ClCompile Include="Source\Core\Render\Pipeline3D.cpp" />
+    <ClCompile Include="Source\Core\Render\Renderer3D.cpp" />
     <ClCompile Include="Source\Base\ZenEngineBootstrap.cpp" />
     <ClCompile Include="Source\Core\Render\shader\ShaderManager.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -176,14 +177,14 @@
     <ClInclude Include="Source\Base\Game.h" />
     <ClInclude Include="Source\Core\assets\models\IRenderable.h" />
     <ClInclude Include="Source\Core\assets\models\Mesh.h" />
-    <ClInclude Include="Source\Core\assets\models\ObjModel.h" />
-    <ClInclude Include="Source\Core\camera\Camera.h" />
+    <ClInclude Include="Source\Core\camera\Camera3D.h" />
     <ClInclude Include="Source\Core\common\logging\ZLog.h" />
-    <ClInclude Include="Source\Core\common\math\Quaternion.hpp" />
+    <ClInclude Include="Source\Core\common\math\Matrix4.hpp" />
     <ClInclude Include="Source\Core\common\math\Vector2.h" />
-    <ClInclude Include="Source\Core\common\math\Vector3.h" />
+    <ClInclude Include="Source\Core\common\math\Vector4.hpp" />
     <ClInclude Include="Source\Core\common\math\ZenMath.h" />
-    <ClInclude Include="Source\Core\Render\Renderer.h" />
+    <ClInclude Include="Source\Core\Render\Pipeline3D.h" />
+    <ClInclude Include="Source\Core\Render\Renderer3D.h" />
     <ClInclude Include="Source\Core\Render\shader\ShaderManager.h" />
     <ClInclude Include="Source\Core\util\Vertex.h" />
     <ClInclude Include="stdafx.h" />

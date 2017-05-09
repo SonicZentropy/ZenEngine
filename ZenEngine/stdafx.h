@@ -18,8 +18,9 @@ using PrecisionType = float;
 #include <spdlog/spdlog.h>
 //#include <SFML/System/Vector3.hpp>
 //#include <SFML/System/Vector2.hpp>
+#include "Source/Core/common/math/ZenMath.h"
 #include "Source/Core/common/math/Vector2.h"
-#include "Source/Core/common/math/Vector3.h"
+
 
 using std::string;
 using std::shared_ptr;

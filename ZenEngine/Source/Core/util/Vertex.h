@@ -5,8 +5,7 @@
 // // */
 
 #pragma once
-#include "Source/Core/common/math/Vector3.h"
-#include "Source/Core/common/math/Vector2.h"
+//#include "Source/Core/common/math/Vector2.h"
 
 namespace Zen
 {

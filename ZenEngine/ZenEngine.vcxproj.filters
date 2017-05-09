@@ -13,9 +13,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Render\Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Render\shader\ShaderManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -28,35 +25,41 @@
     <ClCompile Include="Source\Core\assets\manager\AssetLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\assets\models\ObjModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\assets\models\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\common\math\ZenMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\camera\Camera.cpp">
+    <ClCompile Include="Source\Core\common\math\Matrix4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\camera\Camera3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Render\Pipeline3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Render\Renderer3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Source\Core\Render\Renderer.h" />
     <ClInclude Include="Source\Core\Render\shader\ShaderManager.h" />
     <ClInclude Include="Source\Base\Game.h" />
     <ClInclude Include="Source\Core\common\logging\ZLog.h" />
     <ClInclude Include="Source\Core\assets\manager\AssetLoader.h" />
-    <ClInclude Include="Source\Core\assets\models\ObjModel.h" />
     <ClInclude Include="Source\Core\assets\models\Mesh.h" />
     <ClInclude Include="Source\Core\assets\models\IRenderable.h" />
     <ClInclude Include="Source\Core\util\Vertex.h" />
     <ClInclude Include="Source\Core\common\math\ZenMath.h" />
-    <ClInclude Include="Source\Core\common\math\Vector3.h" />
     <ClInclude Include="Source\Core\common\math\Vector2.h" />
-    <ClInclude Include="Source\Core\common\math\Quaternion.hpp" />
-    <ClInclude Include="Source\Core\camera\Camera.h" />
+    <ClInclude Include="Source\Core\common\math\Matrix4.hpp" />
+    <ClInclude Include="Source\Core\common\math\Vector4.hpp" />
+    <ClInclude Include="Source\Core\camera\Camera3D.h" />
+    <ClInclude Include="Source\Core\Render\Pipeline3D.h" />
+    <ClInclude Include="Source\Core\Render\Renderer3D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Core\Render\shader\HoloFragmentShader.frag" />

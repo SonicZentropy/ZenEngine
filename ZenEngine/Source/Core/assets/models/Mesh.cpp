@@ -61,7 +61,7 @@ namespace Zen
 			const aiVector3D* pTexCoord = paiMesh->HasTextureCoords(0)
 											? &(paiMesh->mTextureCoords[0][i]) : &Zero3D;
 
-			Vertex v(Vector3(pPos->x, pPos->y, pPos->z)
+			Vertex v( Vector3(pPos->x, pPos->y, pPos->z)
 					, Vector2(pTexCoord->x, pTexCoord->y)
 					, Vector3(pNormal->x, pNormal->y, pNormal->z));
 			vertices.push_back(v);
@@ -107,7 +107,7 @@ namespace Zen
 				if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
 					string FullPath = Dir + "/" + Path.data;
 					textures[i] = new sf::Texture();
-					//FullPath = "Assets/phoenix.png";
+					//FullPath = "Assets/white.png";
 					if (!textures[i]->loadFromFile(FullPath))
 						LOG_TRACE("Error loading texture {}", FullPath);
 					delete textures[i];
@@ -123,6 +123,7 @@ namespace Zen
 				textures[i] = new sf::Texture();
 
 				ret = textures[i]->loadFromFile("Assets/FlakTurret_Colour.png");
+				//ret = textures[i]->loadFromFile("Assets/white.png");
 			}
 		}
 		return ret;
